@@ -40,8 +40,10 @@ export class UsersService {
   findAll(role?: 'INTERN' | 'ENGINEER' | 'ADMIN') {
     if (role) {
       const usersWithRole = this.users.filter((user) => user.role === role);
+
       if (!usersWithRole.length)
         throw new NotFoundException('User Role Not Found');
+
       return usersWithRole;
     }
     return this.users;
@@ -57,11 +59,13 @@ export class UsersService {
 
   create(createUserDto: CreateUserDto) {
     const usersByHighestId = [...this.users].sort((a, b) => b.id - a.id);
+
     const newUser = {
       id: usersByHighestId[0].id + 1,
       ...createUserDto,
     };
     this.users.push(newUser);
+
     return newUser;
   }
 
@@ -75,6 +79,7 @@ export class UsersService {
       }
       return user;
     });
+
     return this.findOne(id);
   }
 
